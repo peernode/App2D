@@ -41,6 +41,7 @@ func initHTTPRouter() *httprouter.Router {
 	router.GET("/vr/static/image/top.png", top)
 	router.GET("/vr/static/image/button.png", button)
 	router.GET("/vr/static/image/bottom.png", bottom)
+	router.GET("/vr/static/image/BestvVR_guanfang.apk", guanfang)
 	router.GET("/vr/downloadRedirect", downloadRedirect)
 
 	//router.ServeFiles("/vr/static/*filepath", http.Dir(gAppDir)) //下载相应的媒体文件

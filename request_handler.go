@@ -58,6 +58,12 @@ func bottom(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	http.ServeFile(w, r, fp)
 }
 
+func guanfang(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	fp := path.Join("BestvVR", "BestvVR_guanfang.apk")
+	fmt.Println("fp: " + fp)
+	http.ServeFile(w, r, fp)
+}
+
 // 中转页面，用于统计是否有人点击下载按钮
 func downloadRedirect(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	agentS := r.Header.Get("User-Agent")
