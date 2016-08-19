@@ -10,15 +10,19 @@ import (
 )
 
 var gAppDir = "BestvVR"
-var logFilename = "srvLog.txt"
+var logFilename = "srvLog_"
 var gLogger l4g.Logger
+
+var giPhoneURL = "https://itunes.apple.com/cn/app/vr-ying-yuan-lao-si-ji-kanvr/id1120003008?mt=8"
+var gAndroidURL = "http://vr.ott.bestv.com.cn:8808/vr/static/BestvVR_guanfang.apk"
+var gOtherURL = "http://vr.ott.bestv.com.cn:8808/vr/static/BestvVR_guanfang.apk"
 
 //init for logger
 func initLogger() {
 	gLogger = make(l4g.Logger)
 
 	gLogger.AddFilter("stdout", l4g.INFO, l4g.NewConsoleLogWriter())
-	flw := l4g.NewFileLogWriter(logFilename, true)
+	flw := l4g.NewFileLogWriter(logFilename+time.Now().Format("20060102"), true)
 	flw.SetFormat("[%D %T] [%L] %M")
 	flw.SetRotateDaily(true)
 	gLogger.AddFilter("logfile", l4g.FINEST, flw)
@@ -31,9 +35,15 @@ func initHTTPRouter() *httprouter.Router {
 
 	router.GET("/", Index)
 	router.GET("/hello/:name", Hello)
-	router.GET("/vr/downloadAPP", DownloadApp)
+	router.GET("/vr/download", DownloadApp)
 
-	router.ServeFiles("/vr/static/*filepath", http.Dir(gAppDir)) //下载相应的媒体文件
+	router.GET("/vr/static/download.html", download)
+	router.GET("/vr/static/image/top.png", top)
+	router.GET("/vr/static/image/button.png", button)
+	router.GET("/vr/static/image/bottom.png", bottom)
+	router.GET("/vr/downloadRedirect", downloadRedirect)
+
+	//router.ServeFiles("/vr/static/*filepath", http.Dir(gAppDir)) //下载相应的媒体文件
 
 	return router
 }
