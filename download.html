@@ -16,6 +16,10 @@
         function terminal_chose(event) {
             event.stopPropagation();
             event.preventDefault();
+            redirectPage();
+        }
+
+        function redirectPage(){
             // 获取终端的相关信息
             var Terminal = {
                 // 辨别移动终端类型
@@ -64,6 +68,7 @@
 
             location.href = theUrl;
         }
+
         function is_weixn(){
             var ua = navigator.userAgent.toLowerCase();
             if(ua.match(/MicroMessenger/i)=='micromessenger') {
@@ -81,6 +86,13 @@
                 return false;
             } else {
                 terminal_chose(event);
+            }
+        }
+
+        function initPage(){
+            var b = is_weixn();
+            if(!b){
+                redirectPage();
             }
         }
     </script>
@@ -112,13 +124,13 @@
     body{width: 100%;}
     img{width: 100%;}
 </style>
-<body>
+<body onload="initPage()"> 
 <div class="container-fluid">
     <div class="row">
 
         <div>
             <div><img src="./image/top.png"></div>
-            <p style="margin:0 auto;text-align:center;font-size:50px;color: #767676;margin-top: 30px;margin-bottom:20%;font-family:'黑体'";>版本：2.0.0/大小：40MB</p>
+            <p style="margin:0 auto;text-align:center;font-size:50px;color: #767676;margin-top: 30px;margin-bottom:20%;font-family:'黑体'";>版本：0.7.0/大小：40MB</p>
         </div>
         <a href="" style="margin-top: 35px;margin-bottom: 40%;margin-left: auto;margin-right: auto;text-align: center;" onclick="check(event);">
             <img src="./image/button.png" style="width:307px;height:85px;margin-left: 35%;">
