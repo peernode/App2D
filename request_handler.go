@@ -32,7 +32,7 @@ func download(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	// 	fmt.Println("iphone")
 	// }
 
-	req := fmt.Sprintf("dowload|%s|%s|%s", r.RemoteAddr, agentS, r.RequestURI)
+	req := fmt.Sprintf("dowload|%s|%s|%s", getIPAdress(r), agentS, r.RequestURI)
 	gLogger.Info(req)
 
 	fp := path.Join("BestvVR", "download.html")
@@ -63,7 +63,7 @@ func downloadRedirect(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 	agentS := r.Header.Get("User-Agent")
 	fmt.Println(agentS)
 
-	req := fmt.Sprintf("clickRedirect|%s|%s", r.RemoteAddr, agentS)
+	req := fmt.Sprintf("clickRedirect|%s|%s", getIPAdress(r), agentS)
 	gLogger.Info(req)
 
 	if strings.Index(agentS, "iPhone") > -1 || strings.Index(agentS, "iOS") > -1 {
@@ -76,4 +76,16 @@ func downloadRedirect(w http.ResponseWriter, r *http.Request, _ httprouter.Param
 		fmt.Println("other")
 		http.Redirect(w, r, gOtherURL, http.StatusMovedPermanently)
 	}
+}
+
+func getIPAdress(r *http.Request) string {
+	var ipAddress string
+	for _, h := range []string{"X-Forwarded-For", "X-Real-Ip"} {
+		for _, ip := range strings.Split(r.Header.Get(h), ",") {
+			// header can contain spaces too, strip those out.
+			// realIP := net.ParseIP(strings.Replace(ip, " ", "", -1))
+			ipAddress = ip
+		}
+	}
+	return ipAddress
 }
