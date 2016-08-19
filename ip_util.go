@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"fmt"
 	"net"
 	"net/http"
 	"strings"
@@ -73,6 +74,7 @@ func getIPAdress(r *http.Request) string {
 			ip := addresses[i]
 			// header can contain spaces too, strip those out.
 			realIP := net.ParseIP(strings.Replace(ip, " ", "", -1))
+			fmt.Println(realIP)
 			if !realIP.IsGlobalUnicast() && !isPrivateSubnet(realIP) {
 				// bad address, go to next
 				continue
