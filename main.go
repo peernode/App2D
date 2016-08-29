@@ -44,7 +44,7 @@ func initHTTPRouter() *httprouter.Router {
 	router.GET("/vr/static/BestvVR_guanfang.apk", guanfang)
 	router.GET("/vr/downloadRedirect", downloadRedirect)
 
-	//router.ServeFiles("/vr/static/*filepath", http.Dir(gAppDir)) //下载相应的媒体文件
+	router.ServeFiles("/vr/static2/*filepath", http.Dir(gAppDir)) //下载相应的媒体文件
 
 	return router
 }

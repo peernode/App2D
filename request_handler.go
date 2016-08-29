@@ -12,25 +12,18 @@ import (
 //按平台返回不同的URL
 func DownloadApp(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	agentS := r.Header.Get("User-Agent")
-	fmt.Println(agentS)
-	if strings.Index(agentS, "Android") > -1 || strings.Index(agentS, "Adr") > -1 {
-		fmt.Println("android")
-		http.Redirect(w, r, "http://vr.ott.bestv.com.cn:8808/vr/static/BestvVR_guanfang.apk", http.StatusFound)
-	} else {
-		fmt.Println("iphone")
-		http.Redirect(w, r, "https://itunes.apple.com/cn/app/vr-ying-yuan-lao-si-ji-kanvr/id1120003008?mt=8", http.StatusMovedPermanently)
-	}
+	req := fmt.Sprintf("dowload|%s|%s|%s", getIPAdress(r), agentS, r.RequestURI)
+	gLogger.Info(req)
+
+	fp := path.Join("BestvVR", "newdownload.html")
+	fmt.Println("fp: " + fp)
+	http.ServeFile(w, r, fp)
 }
 
 // 响应静态页面
 func download(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	agentS := r.Header.Get("User-Agent")
 	fmt.Println(agentS)
-	// if strings.Index(agentS, "Android") > -1 || strings.Index(agentS, "Adr") > -1 {
-	// 	fmt.Println("android")
-	// } else {
-	// 	fmt.Println("iphone")
-	// }
 
 	req := fmt.Sprintf("dowload|%s|%s|%s", getIPAdress(r), agentS, r.RequestURI)
 	gLogger.Info(req)
